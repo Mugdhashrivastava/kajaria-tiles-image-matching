@@ -1,3 +1,8 @@
+
+
+# Convert an Image to Grayscale  (black & white tones)
+# Image matching works better with grayscale or simplified images and faster processing, so this is the next key step.
+
 import cv2
 
 # Load image in color
@@ -18,3 +23,5 @@ cv2.destroyAllWindows()
 
 
 # to run : python image_test2.py
+
+
