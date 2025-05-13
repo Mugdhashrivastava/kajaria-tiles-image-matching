@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom';
 
+// Import all tile images
 import tile1 from '../assets/tile1.jpg';
 import tile2 from '../assets/tile2.jpg';
 import tile3 from '../assets/tile3.jpg';
@@ -10,21 +11,23 @@ import tile7 from '../assets/tile7.jpg';
 import tile8 from '../assets/tile8.jpg';
 import tile9 from '../assets/tile9.jpg';
 
+// Map image filenames to imported images
+const imageMap = {
+  'tile1.jpg': tile1,
+  'tile2.jpg': tile2,
+  'tile3.jpg': tile3,
+  'tile4.jpg': tile4,
+  'tile5.jpg': tile5,
+  'tile6.jpg': tile6,
+  'tile7.jpg': tile7,
+  'tile8.jpg': tile8,
+  'tile9.jpg': tile9,
+};
+
 function SearchResults() {
   const location = useLocation();
   const uploadedImage = location.state?.image || null;
-
-  const results = [
-    { name: "Product Name", details: "Additional details", image: tile1 },
-    { name: "Product Name", details: "Additional details", image: tile2 },
-    { name: "Product Name", details: "Additional details", image: tile3 },
-    { name: "Product Name", details: "Additional details", image: tile4 },
-    { name: "Product Name", details: "Additional details", image: tile5 },
-    { name: "Product Name", details: "Additional details", image: tile6 },
-    { name: "Product Name", details: "Additional details", image: tile7 },
-    { name: "Product Name", details: "Additional details", image: tile8 },
-    { name: "Product Name", details: "Additional details", image: tile9 },
-  ];
+  const matchedTiles = location.state?.matchedTiles || [];
 
   return (
     <div className="page-container">
@@ -64,17 +67,20 @@ function SearchResults() {
         </select>
       </div>
       <div className="grid-container">
-        {results.map((result, index) => (
-          <div key={index} className="grid-item">
-            <img
-              src={result.image}
-              alt={result.name}
-              className="tile-preview"
-            />
-            <h3 className="tile-name">{result.name}</h3>
-            <p className="tile-detail">{result.details}</p>
-          </div>
-        ))}
+        {matchedTiles.length > 0 ? (
+          matchedTiles.map((tile) => (
+            <div key={tile.id} className="grid-item">
+            <img src={tile.image_url} alt={tile.name} className="tile-preview" />
+
+              <h3 className="tile-name">{tile.name}</h3>
+              <p className="tile-detail">{tile.material}</p>
+              <p className="tile-detail">{tile.size}</p>
+              <p className="tile-detail">{tile.finish}</p>
+            </div>
+          ))
+        ) : (
+          <p>No matching tiles found.</p>
+        )}
       </div>
     </div>
   );

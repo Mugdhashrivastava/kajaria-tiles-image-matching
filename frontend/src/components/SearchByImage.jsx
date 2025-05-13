@@ -1,18 +1,35 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function SearchByImage() {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState('');
   const [uploadedImage, setUploadedImage] = useState(null);
 
-  const handleImageUpload = (e) => {
+  const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => {
+      reader.onloadend = async () => {
         setUploadedImage(reader.result);
-        navigate('/search-results', { state: { image: reader.result } });
+
+        // Send the image to the FastAPI backend
+        try {
+          const formData = new FormData();
+          formData.append('file', file);
+          const response = await axios.post('http://localhost:8000/analyze-image/', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          });
+
+          const matchedTiles = response.data.matched_tiles;
+          navigate('/search-results', { state: { image: reader.result, matchedTiles } });
+        } catch (error) {
+          console.error('Error analyzing image:', error);
+          alert('Failed to analyze image. Please try again.');
+        }
       };
       reader.readAsDataURL(file);
     }
