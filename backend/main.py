@@ -7,6 +7,9 @@ import numpy as np
 from tiles_data import tiles_db
 import io
 import os
+from PIL import Image
+import imagehash
+
 
 app = FastAPI()
 
@@ -24,6 +27,17 @@ if not os.path.exists("tiles"):
     os.makedirs("tiles")  # ensure it exists
 app.mount("/tiles", StaticFiles(directory="tiles"), name="tiles")
 
+
+
+# def get_image_hash(image_path):
+#     try:
+#         img = Image.open(image_path)
+#         return str(imagehash.phash(img))  # perceptual hash (phash)
+#     except Exception as e:
+#         print(f"Error hashing {image_path}: {e}")
+#         return None
+
+
 # Extract dominant color
 def get_dominant_color(image):
     image = cv2.resize(image, (150, 150))
@@ -40,46 +54,52 @@ def get_texture(image):
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     return np.var(gray)
 
-# Match tiles using color & texture
-# def match_tiles(dominant_color, texture):
-#     matched_tiles = []
-#     for tile in tiles_db:
-#         color_diff = np.sqrt(sum((a - b) ** 2 for a, b in zip(dominant_color, tile["color"])))
-#         texture_diff = abs(texture - tile["texture"])
-#         score = color_diff + texture_diff * 0.1
-#         matched_tiles.append((score, tile))
-#     matched_tiles.sort(key=lambda x: x[0])
-#     return [tile for _, tile in matched_tiles[:9]]
 
-
-import hashlib
-
-def hash_image(filepath):
-    with open(filepath, "rb") as f:
-        return hashlib.md5(f.read()).hexdigest()
 
 def match_tiles(dominant_color, texture):
     matched_tiles = []
-    seen_hashes = set()
+    seen_images = set()  # Track unique image names
 
     for tile in tiles_db:
-        tile_path = os.path.join("tiles", tile["image"])
-        if not os.path.exists(tile_path):
-            continue
-
-        image_hash = hash_image(tile_path)
-        if image_hash in seen_hashes:
-            continue  # Skip visually identical image
+        image_name = tile["image"]
+        if image_name in seen_images:
+            continue  # Skip duplicates based on image name
 
         color_diff = np.sqrt(sum((a - b) ** 2 for a, b in zip(dominant_color, tile["color"])))
         texture_diff = abs(texture - tile["texture"])
         score = color_diff + texture_diff * 0.1
 
         matched_tiles.append((score, tile))
-        seen_hashes.add(image_hash)
+        seen_images.add(image_name)  # Mark this image as seen
 
     matched_tiles.sort(key=lambda x: x[0])
     return [tile for _, tile in matched_tiles[:9]]
+
+
+# def match_tiles(dominant_color, texture):
+#     matched_tiles = []
+#     seen_hashes = set()
+
+#     for tile in tiles_db:
+#         tile_path = os.path.join("tiles", tile["image"])
+#         if not os.path.exists(tile_path):
+#             continue
+
+#         img_hash = get_image_hash(tile_path)
+#         if not img_hash or img_hash in seen_hashes:
+#             continue  # Skip duplicate or unreadable image
+
+#         color_diff = np.sqrt(sum((a - b) ** 2 for a, b in zip(dominant_color, tile["color"])))
+#         texture_diff = abs(texture - tile["texture"])
+#         score = color_diff + texture_diff * 0.1
+
+#         matched_tiles.append((score, tile))
+#         seen_hashes.add(img_hash)
+
+#     matched_tiles.sort(key=lambda x: x[0])
+#     return [tile for _, tile in matched_tiles[:9]]
+
+
 
 
 
