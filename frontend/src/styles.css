@@ -1,0 +1,167 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* NavBar Styles */
+.nav-bar {
+  background-color: #f1f1f1;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+}
+
+.nav-link {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+/* Common Styles for Pages */
+.page-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.page-subtitle {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+/* SearchByImage Styles */
+.upload-container {
+  border: 2px dashed #ccc;
+  padding: 2rem;
+  text-align: center;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.upload-icon {
+  width: 3rem;
+  height: 3rem;
+  color: #999;
+  margin: 0 auto;
+}
+
+.upload-text {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+}
+
+.upload-subtext {
+  color: #666;
+  font-size: 0.875rem;
+}
+
+.upload-input {
+  margin-top: 1rem;
+}
+
+.or-text {
+  text-align: center;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.search-bar-container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.search-input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+}
+
+.search-button {
+  background-color: #6b7280;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+/* Recommendations and SearchResults Styles */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.grid-item {
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+.tile-preview {
+  width: 100%;
+  height: 8rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.tile-name {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.tile-detail {
+  color: #666;
+  font-size: 0.875rem;
+}
+
+/* SearchResults Specific Styles */
+.search-result-header {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.image-placeholder {
+  width: 8rem;
+  height: 8rem;
+  background-color: #d1d5db;
+  border-radius: 0.5rem;
+  margin-right: 1rem;
+}
+
+.header-text {
+  color: #666;
+}
+
+.filter-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-dropdown {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+}
