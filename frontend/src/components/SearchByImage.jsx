@@ -4,10 +4,23 @@ import { useNavigate } from 'react-router-dom';
 function SearchByImage() {
   const navigate = useNavigate();
   const [searchText, setSearchText] = useState('');
+  const [uploadedImage, setUploadedImage] = useState(null);
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUploadedImage(reader.result);
+        navigate('/search-results', { state: { image: reader.result } });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleSearch = () => {
     if (searchText.trim()) {
-      navigate('/search-results');
+      navigate('/search-results', { state: { searchQuery: searchText } });
     }
   };
 
@@ -25,7 +38,7 @@ function SearchByImage() {
           type="file"
           accept="image/jpeg, image/png"
           className="upload-input"
-          onChange={() => navigate('/search-results')}
+          onChange={handleImageUpload}
         />
       </div>
       <p className="or-text">or</p>

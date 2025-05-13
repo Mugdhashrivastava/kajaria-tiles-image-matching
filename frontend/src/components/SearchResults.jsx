@@ -1,21 +1,44 @@
+import { useLocation } from 'react-router-dom';
+
+import tile1 from '../assets/tile1.jpg';
+import tile2 from '../assets/tile2.jpg';
+import tile3 from '../assets/tile3.jpg';
+import tile4 from '../assets/tile4.jpg';
+import tile5 from '../assets/tile5.jpg';
+import tile6 from '../assets/tile6.jpg';
+import tile7 from '../assets/tile7.jpg';
+import tile8 from '../assets/tile8.jpg';
+import tile9 from '../assets/tile9.jpg';
+
 function SearchResults() {
+  const location = useLocation();
+  const uploadedImage = location.state?.image || null;
+
   const results = [
-    { name: "Product Name", details: "Additional details", color: "#F5F5DC" },
-    { name: "Product Name", details: "Additional details", color: "#D3D3D3" },
-    { name: "Product Name", details: "Additional details", color: "#D2691E" },
-    { name: "Product Name", details: "Additional details", color: "#FFFFF0" },
-    { name: "Product Name", details: "Additional details", color: "#C0C0C0" },
-    { name: "Product Name", details: "Additional details", color: "#DEB887" },
-    { name: "Product Name", details: "Additional details", color: "#F0E68C" },
-    { name: "Product Name", details: "Additional details", color: "#A9A9A9" },
-    { name: "Product Name", details: "Additional details", color: "#FFD700" },
+    { name: "Product Name", details: "Additional details", image: tile1 },
+    { name: "Product Name", details: "Additional details", image: tile2 },
+    { name: "Product Name", details: "Additional details", image: tile3 },
+    { name: "Product Name", details: "Additional details", image: tile4 },
+    { name: "Product Name", details: "Additional details", image: tile5 },
+    { name: "Product Name", details: "Additional details", image: tile6 },
+    { name: "Product Name", details: "Additional details", image: tile7 },
+    { name: "Product Name", details: "Additional details", image: tile8 },
+    { name: "Product Name", details: "Additional details", image: tile9 },
   ];
 
   return (
     <div className="page-container">
       <h1 className="page-title">Search results</h1>
       <div className="search-result-header">
-        <div className="image-placeholder"></div>
+        {uploadedImage ? (
+          <img
+            src={uploadedImage}
+            alt="Uploaded Tile"
+            className="uploaded-image"
+          />
+        ) : (
+          <div className="image-placeholder"></div>
+        )}
         <p className="header-text">Here are some products that match the image you uploaded.</p>
       </div>
       <div className="filter-container">
@@ -43,7 +66,11 @@ function SearchResults() {
       <div className="grid-container">
         {results.map((result, index) => (
           <div key={index} className="grid-item">
-            <div className="tile-preview" style={{ backgroundColor: result.color }}></div>
+            <img
+              src={result.image}
+              alt={result.name}
+              className="tile-preview"
+            />
             <h3 className="tile-name">{result.name}</h3>
             <p className="tile-detail">{result.details}</p>
           </div>
